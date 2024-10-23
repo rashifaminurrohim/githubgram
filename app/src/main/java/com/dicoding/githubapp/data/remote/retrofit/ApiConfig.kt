@@ -1,20 +1,25 @@
-package com.dicoding.githubapp.data.retrofit
+package com.dicoding.githubapp.data.remote.retrofit
+
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.dicoding.githubapp.BuildConfig
 
 class ApiConfig {
     companion object {
         fun getApiService(): ApiService {
-            val loggingInterceptor =
+            val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+            } else {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+            }
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
                 val requestHeaders = req.newBuilder()
-                    .addHeader("Authorization", "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")
+                    .addHeader("KEY", BuildConfig.KEY)
                     .build()
                 chain.proceed(requestHeaders)
             }
@@ -23,7 +28,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl(BuildConfig.BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

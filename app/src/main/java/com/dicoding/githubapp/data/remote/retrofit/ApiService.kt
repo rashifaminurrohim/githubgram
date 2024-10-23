@@ -1,8 +1,8 @@
-package com.dicoding.githubapp.data.retrofit
+package com.dicoding.githubapp.data.remote.retrofit
 
-import com.dicoding.githubapp.data.response.DetailUserResponse
-import com.dicoding.githubapp.data.response.GithubUserResponse
-import com.dicoding.githubapp.data.response.ItemsItem
+import com.dicoding.githubapp.data.remote.response.DetailUserResponse
+import com.dicoding.githubapp.data.remote.response.GithubUserResponse
+import com.dicoding.githubapp.data.remote.response.ItemsItem
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET("search/users")
-    fun getUserGithub ( @Query("q") query: String ) : Call<GithubUserResponse>
+    fun getUserGithub(@Query("q") query: String): Call<GithubUserResponse>
 
     @GET("users/{username}")
     fun getDetailUser(@Path("username") username: String): Call<DetailUserResponse>
@@ -21,4 +21,5 @@ interface ApiService {
 
     @GET("users/{username}/following")
     fun getFollowing(@Path("username") username: String): Call<List<ItemsItem>>
+
 }

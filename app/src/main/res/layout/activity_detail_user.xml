@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_background"
     tools:context=".ui.DetailUserActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -12,8 +13,8 @@
         android:layout_height="212dp"
         android:layout_marginTop="64dp"
         android:foregroundGravity="center"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
+        app:civ_border_color="@color/tab_green"
+        app:civ_border_width="3.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,21 +56,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="@string/followers_detail"
-            android:layout_marginEnd="8dp"/>
+            tools:text="@string/followers_detail" />
 
         <TextView
             android:id="@+id/tv_followingDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="8dp"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="100dp"
-            tools:text="@string/following_detail"
-            android:layout_marginStart="8dp"/>
+            tools:text="@string/following_detail" />
 
     </LinearLayout>
 
@@ -78,8 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/design_default_color_background"
-        app:layout_constraintTop_toBottomOf="@+id/layoutFollowerFollowing" />
+        android:background="@drawable/tablayout"
+        app:layout_constraintTop_toBottomOf="@+id/layoutFollowerFollowing"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerDetail"
@@ -88,7 +89,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/tabDetail"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -103,6 +105,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fav_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintBottom_toBottomOf="@id/viewPagerDetail"
+        app:layout_constraintEnd_toEndOf="@id/viewPagerDetail"
+        app:backgroundTint="@color/btn_green"
+        app:borderWidth="2.3dp"
+        android:elevation="6dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.githubapp.data.response.ItemsItem
-import com.dicoding.githubapp.data.retrofit.ApiConfig
+import com.dicoding.githubapp.data.remote.response.ItemsItem
+import com.dicoding.githubapp.data.remote.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,13 +28,13 @@ class FollowViewModel : ViewModel() {
         } else {
             ApiConfig.getApiService().getFollowing(username)
         }
-        client.enqueue(object : Callback<List<ItemsItem>>{
+        client.enqueue(object : Callback<List<ItemsItem>> {
             override fun onResponse(
                 call: Call<List<ItemsItem>>,
                 response: Response<List<ItemsItem>>
             ) {
                 _isLoading.value = false
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     _follow.postValue(response.body())
                 }
             }

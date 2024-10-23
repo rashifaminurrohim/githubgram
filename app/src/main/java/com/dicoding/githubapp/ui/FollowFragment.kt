@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.githubapp.data.response.ItemsItem
+import com.dicoding.githubapp.data.remote.response.ItemsItem
 import com.dicoding.githubapp.databinding.FragmentFollowBinding
 
 
@@ -17,11 +17,11 @@ class FollowFragment : Fragment() {
 
     private var _binding: FragmentFollowBinding? = null
     private val binding get() = _binding!!
-    val followViewModel by viewModels<FollowViewModel>()
+    private val followViewModel by viewModels<FollowViewModel>()
     private val adapter = UserAdapter()
 
 
-    companion object{
+    companion object {
         const val ARG_POSITION = "arg_position"
         const val ARG_USERNAME = "arg_username"
 
@@ -33,8 +33,8 @@ class FollowFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentFollowBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentFollowBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,11 +47,11 @@ class FollowFragment : Fragment() {
         binding.rvFollow.addItemDecoration(itemDecoration)
 
 
-        followViewModel.isLoading.observe(requireActivity()){
+        followViewModel.isLoading.observe(requireActivity()) {
             showLoading(it)
         }
 
-        followViewModel.follow.observe(requireActivity()){ listFollow ->
+        followViewModel.follow.observe(requireActivity()) { listFollow ->
             setFollowData(listFollow)
         }
 
@@ -60,7 +60,7 @@ class FollowFragment : Fragment() {
             username = it.getString(ARG_USERNAME)
         }
         showLoading(true)
-        if (position == 1){
+        if (position == 1) {
             username?.let { getFollower(it) }
 
         } else {
@@ -70,16 +70,16 @@ class FollowFragment : Fragment() {
 
     }
 
-    fun getFollower(username: String) {
+    private fun getFollower(username: String) {
         followViewModel.getFollow(username, "followers")
     }
 
-    fun getFollowing(username: String) {
+    private fun getFollowing(username: String) {
         followViewModel.getFollow(username, "following")
     }
 
-    private fun setFollowData (listFollow : List<ItemsItem>){
-        adapter.setOnItemClickCallback(object :UserAdapter.OnItemClickCallback{
+    private fun setFollowData(listFollow: List<ItemsItem>) {
+        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ItemsItem) {
                 Intent(requireActivity(), DetailUserActivity::class.java).apply {
                     this.putExtra(DetailUserActivity.EXTRA_USERNAME, data.login)
@@ -91,8 +91,6 @@ class FollowFragment : Fragment() {
         adapter.submitList(listFollow)
         binding.rvFollow.adapter = adapter
     }
-
-
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

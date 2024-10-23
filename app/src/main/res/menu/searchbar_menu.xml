@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
+        android:id="@+id/menu_favourite"
+        android:title="@string/favourite"
+        android:icon="@drawable/ic_favourited"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menu_settings"
         android:title="@string/settings"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/about_page"
-        android:title="@string/about_page"
-        android:icon="@drawable/baseline_ac_unit_24"
-        app:showAsAction="always"/>
 
 </menu>

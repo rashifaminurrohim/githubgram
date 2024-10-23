@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.githubapp.data.response.GithubUserResponse
-import com.dicoding.githubapp.data.response.ItemsItem
-import com.dicoding.githubapp.data.retrofit.ApiConfig
+import com.dicoding.githubapp.data.remote.response.GithubUserResponse
+import com.dicoding.githubapp.data.remote.response.ItemsItem
+import com.dicoding.githubapp.data.remote.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Query
 
 class MainViewModel : ViewModel() {
 
@@ -20,7 +19,10 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    companion object{
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> = _errorMessage
+
+    companion object {
         private const val TAG = "HomeViewModel"
         private const val QUERY = "rashif"
     }
@@ -33,15 +35,20 @@ class MainViewModel : ViewModel() {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUserGithub(QUERY)
         client.enqueue(object : Callback<GithubUserResponse> {
-            override fun onResponse(call: Call<GithubUserResponse>, response: Response<GithubUserResponse>) {
+            override fun onResponse(
+                call: Call<GithubUserResponse>,
+                response: Response<GithubUserResponse>
+            ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _listUser.value = response.body()?.items
                 }
             }
+
             override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
+                _errorMessage.value = "Gagal memuat data: ${t.message}"
             }
 
         })
@@ -51,15 +58,20 @@ class MainViewModel : ViewModel() {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getUserGithub(query)
         client.enqueue(object : Callback<GithubUserResponse> {
-            override fun onResponse(call: Call<GithubUserResponse>, response: Response<GithubUserResponse>) {
+            override fun onResponse(
+                call: Call<GithubUserResponse>,
+                response: Response<GithubUserResponse>
+            ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _listUser.value = response.body()?.items
                 }
             }
+
             override fun onFailure(call: Call<GithubUserResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
+                _errorMessage.value = "Gagal memuat data: ${t.message}"
             }
 
         })
